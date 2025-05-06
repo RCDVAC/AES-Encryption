@@ -28,4 +28,9 @@ public class KeyXOROperation implements Operation{
         return blockState;
     }
 
+    @Override
+    public void printDetails() {
+
+    }
+
 }

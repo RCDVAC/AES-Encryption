@@ -1,7 +1,5 @@
 import model.State;
-import operations.KeyXOROperation;
-import operations.Operation;
-import operations.SubBytesOperation;
+import operations.*;
 import util.StateCreationUtil;
 
 public class Main {
@@ -10,26 +8,24 @@ public class Main {
         String string = "abcdefghijklmnop";
         String key = "abcdefghijklmnop";
 
-        State keyState = StateCreationUtil.createState(key);
-        State state = StateCreationUtil.createState(string);
+        State keyState = StateCreationUtil.createBlockState(key);
+        State state = StateCreationUtil.createBlockState(string);
 
         for (int i = 0; i < state.getRows(); i++) {
             for (int j = 0; j < state.getColumns(); j++) {
-                System.out.print(String.format("%02X ", state.getValue(i, j)));
+                System.out.printf("%02X ", Byte.valueOf(state.getValue(i, j)));
             }
             System.out.println();
         }
 
-        Operation operation = new SubBytesOperation();
+        Operation operation = new MixColumnsOperation();
         operation.loadState(state);
-
-        state = operation.doOperation();
-
+        operation.doOperation();
         System.out.println();
 
         for (int i = 0; i < state.getRows(); i++) {
             for (int j = 0; j < state.getColumns(); j++) {
-                System.out.print(String.format("%02X ", state.getValue(i, j)));
+                System.out.printf("%02X ", Byte.valueOf(state.getValue(i, j)));
             }
             System.out.println();
         }

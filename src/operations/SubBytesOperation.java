@@ -44,4 +44,9 @@ public class SubBytesOperation implements Operation{
         return blockState;
     }
 
+    @Override
+    public void printDetails() {
+
+    }
+
 }

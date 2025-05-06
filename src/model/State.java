@@ -6,10 +6,9 @@ public class State {
 
     private final int rows = 4;
 
-    private final int columns;
+    private final int columns = 4;
 
-    public State(int size) {
-        this.columns = size / 32;
+    public State() {
         table = new byte[rows][columns];
     }
 

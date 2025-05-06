@@ -2,18 +2,25 @@ package util;
 
 import model.State;
 
+import java.nio.charset.StandardCharsets;
+
 public class StateCreationUtil {
 
-    public static State createState(String bytes) {
+    public static State createBlockState(String string) {
+        byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+
+        return createBlockState(bytes);
+    }
+
+    public static State createBlockState(byte[] bytes) {
         checkLength(bytes);
 
-        State state = new State(determineSize(bytes));
+        State state = new State();
 
         return populateState(state, bytes);
     }
 
-    public static State populateState(State state, String value) {
-        byte[] bytes = value.getBytes();
+    public static State populateState(State state, byte[] bytes) {
         int counter = 0;
         for (int i = 0; i < state.getColumns(); i++) {
             for (int j = 0; j < state.getRows(); j++) {
@@ -27,24 +34,13 @@ public class StateCreationUtil {
         return state;
     }
 
-    public static void checkLength(String value) {
-        if (value.length() == 16) {
+    public static void checkLength(byte[] value) {
+        if (value.length == 16) {
             return;
-        } else if (value.length() == 24) {
+        } else if (value.length == 24) {
             return;
-        } else if (value.length() == 32) {
+        } else if (value.length == 32) {
             return;
-        }
-        throw new IllegalArgumentException("Size of value is not 128, 192 or 256 bits");
-    }
-
-    public static int determineSize(String value) {
-        if (value.length() == 16) {
-            return 128;
-        } else if (value.length() == 24) {
-            return 192;
-        } else if (value.length() == 32) {
-            return 256;
         }
         throw new IllegalArgumentException("Size of value is not 128, 192 or 256 bits");
     }

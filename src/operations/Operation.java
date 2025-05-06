@@ -7,4 +7,6 @@ public interface Operation {
     public void loadState(State state);
 
     public State doOperation();
+
+    public void printDetails();
 }
