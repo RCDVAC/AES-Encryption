@@ -1,6 +1,7 @@
 package util;
 
 import model.State;
+import model.Word;
 
 public class StateUtils {
 
@@ -19,6 +20,13 @@ public class StateUtils {
        state.setValue(rowNum, secondPosition, second);
        state.setValue(rowNum, thirdPosition, third);
        state.setValue(rowNum, fourthPosition, fourth);
+    }
+
+    public static void setWordInState(State state, Word word, int column) {
+        state.setValue(0, column, word.getByte(0));
+        state.setValue(1, column, word.getByte(1));
+        state.setValue(2, column, word.getByte(2));
+        state.setValue(3, column, word.getByte(3));
     }
 
     public static byte xTimes(byte in) {
