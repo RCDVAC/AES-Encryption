@@ -1,3 +1,4 @@
+import context.DecryptionContext;
 import context.EncryptionContext;
 import model.State;
 import operations.*;
@@ -26,9 +27,42 @@ public class Main {
             }
             System.out.println();
         }
+        System.out.println();
 
         EncryptionContext context = new EncryptionContext(state, subkeys, 10);
         state = context.doOperations();
+
+        for (int i = 0; i < state.getRows(); i++) {
+            for (int j = 0; j < state.getColumns(); j++) {
+                System.out.printf("%02X ", Byte.valueOf(state.getValue(i, j)));
+            }
+            System.out.println();
+        }
+
+
+        DecryptionContext decryptionContext = new DecryptionContext(state, subkeys, 10);
+        state = decryptionContext.doOperations();
+
+
+//        KeyXOROperation keyXor = new KeyXOROperation(subkeys.get(10));
+//        keyXor.loadState(state);
+//        state = keyXor.doOperation();
+//
+//        InvShiftRowsOperation invShiftRowsOperation = new InvShiftRowsOperation();
+//        invShiftRowsOperation.loadState(state);
+//        state = invShiftRowsOperation.doOperation();
+//
+//        InvSubBytesOperation invSubBytesOperation = new InvSubBytesOperation();
+//        invSubBytesOperation.loadState(state);
+//        state = invSubBytesOperation.doOperation();
+//
+//        keyXor = new KeyXOROperation(subkeys.get(9));
+//        keyXor.loadState(state);
+//        state = keyXor.doOperation();
+//
+//        InvMixColumnsOperation invMixColumnsOperation = new InvMixColumnsOperation();
+//        invMixColumnsOperation.loadState(state);
+//        state = invMixColumnsOperation.doOperation();
 
         System.out.println();
 

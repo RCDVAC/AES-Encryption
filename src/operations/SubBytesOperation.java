@@ -4,7 +4,7 @@ import model.State;
 
 public class SubBytesOperation implements Operation{
 
-    public static final byte[][] substituteTable = {
+    public static final byte[][] S_BOX = {
             {0x63, 0x7c, 0x77, 0x7b, (byte) 0xf2, 0x6b, 0x6f, (byte) 0xc5, 0x30, 0x01, 0x67, 0x2b, (byte) 0xfe, (byte) 0xd7, (byte) 0xab, 0x76},
             {(byte) 0xca, (byte) 0x82, (byte) 0xc9, 0x7d, (byte) 0xfa, 0x59, 0x47, (byte) 0xf0, (byte) 0xad, (byte) 0xd4, (byte) 0xa2, (byte) 0xaf, (byte) 0x9c, (byte) 0xa4, 0x72, (byte) 0xc0},
             {(byte) 0xb7, (byte) 0xfd, (byte) 0x93, 0x26, 0x36, 0x3f, (byte) 0xf7, (byte) 0xcc, 0x34, (byte) 0xa5, (byte) 0xe5, (byte) 0xf1, 0x71, (byte) 0xd8, 0x31, 0x15},
@@ -23,25 +23,25 @@ public class SubBytesOperation implements Operation{
             {(byte) 0x8c, (byte) 0xa1, (byte) 0x89, 0x0d, (byte) 0xbf, (byte) 0xe6, 0x42, 0x68, 0x41, (byte) 0x99, 0x2d, 0x0f, (byte) 0xb0, 0x54, (byte) 0xbb, 0x16}
     };
 
-    private State blockState;
+    private State state;
 
     @Override
     public void loadState(State state) {
-        this.blockState = state;
+        this.state = state;
     }
 
     @Override
     public State doOperation() {
-        for (int i = 0; i < blockState.getColumns(); i++) {
-            for (int j = 0; j < blockState.getRows(); j++) {
-                byte position = blockState.getValue(j, i);
+        for (int i = 0; i < state.getColumns(); i++) {
+            for (int j = 0; j < state.getRows(); j++) {
+                byte position = state.getValue(j, i);
                 int x = ((position & 0xf0) >> 4);
                 int y = position & 0x0f;
-                byte outByte = substituteTable[x][y];
-                blockState.setValue(j, i, outByte);
+                byte outByte = S_BOX[x][y];
+                state.setValue(j, i, outByte);
             }
         }
-        return blockState;
+        return state;
     }
 
     @Override

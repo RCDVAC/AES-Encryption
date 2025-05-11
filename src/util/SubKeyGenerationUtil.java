@@ -6,7 +6,7 @@ import model.Word;
 import java.util.ArrayList;
 import java.util.List;
 
-import static operations.SubBytesOperation.substituteTable;
+import static operations.SubBytesOperation.S_BOX;
 
 public class SubKeyGenerationUtil {
 
@@ -77,7 +77,7 @@ public class SubKeyGenerationUtil {
             byte position = word.getByte(i);
             int x = ((position & 0xf0) >> 4);
             int y = position & 0x0f;
-            byte outByte = substituteTable[x][y];
+            byte outByte = S_BOX[x][y];
             word.setByte(i, outByte);
         }
     }
