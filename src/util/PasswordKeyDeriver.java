@@ -10,6 +10,7 @@ import java.security.spec.KeySpec;
 public class PasswordKeyDeriver {
 
     public static final int ITERATION_COUNT = 65536;
+    //TODO: Change this to 16 when done with testing
     public static final int SALT_SIZE = 16;
     public static final int KEY_LENGTH_BITS_128 = 128; // For AES-256. Use 128 or 192 for other AES variants.
     public static final int KEY_LENGTH_BITS_192 = 192; // For AES-256. Use 128 or 192 for other AES variants.
