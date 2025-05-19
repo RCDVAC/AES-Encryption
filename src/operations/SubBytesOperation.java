@@ -46,6 +46,10 @@ public class SubBytesOperation implements Operation{
 
     @Override
     public void printDetails() {
+        System.out.println();
+        System.out.println("Operation Name: Sub Bytes");
+        System.out.println("Operation Details: Uses the S-Box to substitute each byte for a new one");
+        System.out.println();
 
     }
 

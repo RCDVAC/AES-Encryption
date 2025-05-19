@@ -21,6 +21,10 @@ public class InvShiftRowsOperation implements Operation{
 
     @Override
     public void printDetails() {
+        System.out.println();
+        System.out.println("Operation Name: Inv Shift Rows");
+        System.out.println("Operation Details: Rotates each row to the right a certain amount");
+        System.out.println();
 
     }
 }

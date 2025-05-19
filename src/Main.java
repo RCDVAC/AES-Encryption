@@ -1,5 +1,7 @@
 import context.OperationTypes;
 import exception.ExitException;
+import model.State;
+import util.StateCreationUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -22,6 +24,8 @@ public class Main {
 
     private static File outputFile;
 
+    private static boolean explanation = false;
+
 
     public static void main(String[] args) {
 
@@ -36,24 +40,8 @@ public class Main {
             return;
         }
 
-//        byte[] encBlock = new byte[]{ 0x00, 0x00, 0x01, 0x01, 0x03, 0x03, 0x07, 0x07, 0x0f, 0x0f, 0x1f, 0x1f, 0x3f, 0x3f, 0x7f, 0x7f, 0x12};
-//
-//        String pass = "123";
-//        char[] chars = pass.toCharArray();
-//
-//
-//        OperationsManager operationsManager = new OperationsManager(encBlock, OperationTypes.ENCRYPT_128, chars);
-//        operationsManager.init();
-//        byte[] output = operationsManager.doOperationsOnBlocks();
-//
-//        OperationsManager operationsManager1 = new OperationsManager(output, OperationTypes.DECRYPT_128, chars);
-//        operationsManager1.init();
-//        byte[] out = operationsManager1.doOperationsOnBlocks();
-
-
         System.out.println();
 
-        System.out.println("Hello world!");
     }
 
     private static void saveOutputToFile() {
@@ -65,7 +53,7 @@ public class Main {
     }
 
     private static void startOperationsManager() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        OperationsManager operationsManager = new OperationsManager(input, operationType, password);
+        OperationsManager operationsManager = new OperationsManager(input, operationType, password, explanation);
         operationsManager.init();
         output = operationsManager.doOperationsOnBlocks();
     }
@@ -155,6 +143,8 @@ public class Main {
                     System.out.println("Password not specified");
                     throw new ExitException();
                 }
+            } else if (Arguments.EXPLAIN.equals(args[i])) {
+                explanation = true;
             }
 
         }

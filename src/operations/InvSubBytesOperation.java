@@ -46,6 +46,10 @@ public class InvSubBytesOperation implements Operation{
 
     @Override
     public void printDetails() {
+        System.out.println();
+        System.out.println("Operation Name: Inv Sub Bytes");
+        System.out.println("Operation Details: Uses the inverse S-Box to substitute each byte for a new one");
+        System.out.println();
 
     }
 }

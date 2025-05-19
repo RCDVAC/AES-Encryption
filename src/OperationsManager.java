@@ -1,8 +1,6 @@
-import context.Context;
-import context.DecryptionContext;
-import context.EncryptionContext;
-import context.OperationTypes;
+import context.*;
 import model.State;
+import util.ExplanationContextsUtil;
 import util.PasswordKeyDeriver;
 import util.StateCreationUtil;
 import util.SubKeyGenerationUtil;
@@ -30,27 +28,36 @@ public class OperationsManager {
 
     private List<State> subkeys;
 
+    private final boolean explanationMode;
 
-    public OperationsManager(byte[] input, String operationType, char[] password){
+    public OperationsManager(byte[] input, String operationType, char[] password, boolean explanationMode){
         this.input = input;
         this.operationType = operationType;
         this.password = password;
         this.states = new ArrayList<>();
         this.operationsContexts = new ArrayList<>();
+        this.explanationMode = explanationMode;
     }
 
     public void init() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        System.out.println("Initializing...");
         determineNumberOfCycles();
         generateSubKeys();
         splitInputIntoBlockStates();
         determineContexts();
-
+        System.out.println("Initialization completed successfully.");
     }
 
     public byte[] doOperationsOnBlocks() {
+        System.out.println();
         for (int i = 0; i < operationsContexts.size(); i++) {
+            System.out.println("Beginning operation of block #" + (i + 1));
+            System.out.println();
+            System.out.println("Block's state: ");
+            ExplanationContextsUtil.printState(operationsContexts.get(i).getState());
             State tmp = operationsContexts.get(i).doOperations();
             copyStateIntoOutput(tmp, i);
+            System.out.println();
         }
         return output;
     }
@@ -92,7 +99,8 @@ public class OperationsManager {
             System.arraycopy(this.input, PasswordKeyDeriver.SALT_SIZE, newInput, 0, this.input.length - PasswordKeyDeriver.SALT_SIZE);
             this.input = newInput;
         } else {
-            output = new byte[(numberOfBlocks + 1) * 16];
+            numberOfBlocks += 1;
+            output = new byte[numberOfBlocks * 16];
             salt = PasswordKeyDeriver.generateSalt();
             System.arraycopy(salt, 0, this.output, 0, PasswordKeyDeriver.SALT_SIZE);
         }
@@ -114,13 +122,25 @@ public class OperationsManager {
 
     private void determineContexts() {
         if (OperationTypes.DECRYPT_128.equals(operationType) || OperationTypes.DECRYPT_192.equals(operationType) || OperationTypes.DECRYPT_256.equals(operationType)) {
-            states.forEach(state -> {
-                operationsContexts.add(new DecryptionContext(state, subkeys, numberOfCycles));
-            });
+            if (explanationMode) {
+                states.forEach(state -> {
+                    operationsContexts.add(new ExplanationDecryptionContext(state, subkeys, numberOfCycles));
+                });
+            }else {
+                states.forEach(state -> {
+                    operationsContexts.add(new DecryptionContext(state, subkeys, numberOfCycles));
+                });
+            }
         } else if (OperationTypes.ENCRYPT_128.equals(operationType) || OperationTypes.ENCRYPT_192.equals(operationType) || OperationTypes.ENCRYPT_256.equals(operationType)) {
-            states.forEach(state -> {
-                operationsContexts.add(new EncryptionContext(state, subkeys, numberOfCycles));
-            });
+            if (explanationMode) {
+                states.forEach(state -> {
+                    operationsContexts.add(new ExplanationEncryptionContext(state, subkeys, numberOfCycles));
+                });
+            } else {
+                states.forEach(state -> {
+                    operationsContexts.add(new EncryptionContext(state, subkeys, numberOfCycles));
+                });
+            }
         }
     }
 

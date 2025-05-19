@@ -21,6 +21,10 @@ public class ShiftRowsOperation implements Operation{
 
     @Override
     public void printDetails() {
+        System.out.println();
+        System.out.println("Operation Name: Shift Rows");
+        System.out.println("Operation Details: Shifts each row to the left a certain amount");
+        System.out.println();
 
     }
 }

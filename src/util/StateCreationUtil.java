@@ -23,6 +23,11 @@ public class StateCreationUtil {
         return state;
     }
 
+    public static State createTmpState(State state) {
+        byte[][] bytes = state.getTable();
+        return new State(bytes);
+    }
+
     public static State createBlockState(byte[] bytes) {
         checkLength(bytes);
 

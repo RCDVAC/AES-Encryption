@@ -34,4 +34,9 @@ public class EncryptionContext implements Context{
         }));
         return plainBlock;
     }
+
+    @Override
+    public State getState() {
+        return plainBlock;
+    }
 }

@@ -30,7 +30,19 @@ public class KeyXOROperation implements Operation{
 
     @Override
     public void printDetails() {
+        System.out.println();
 
+        System.out.println("Operation Name: Add Round Key");
+        System.out.println("Operation Details: XOR's the current block with the current round's key");
+        System.out.println("Current round key state: ");
+        System.out.println();
+        for (int i = 0; i < keyState.getColumns(); i++) {
+            for (int j = 0; j < keyState.getRows(); j++) {
+                System.out.printf("%02X ", keyState.getValue(i, j));
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
 }

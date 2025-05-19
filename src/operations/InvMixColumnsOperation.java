@@ -56,6 +56,10 @@ public class InvMixColumnsOperation implements Operation{
 
     @Override
     public void printDetails() {
+        System.out.println();
+        System.out.println("Operation Name: Inv Mix Columns");
+        System.out.println("Operation Details: Calculates a value for each value in a column by using a Galois Field");
+        System.out.println();
 
     }
 }
