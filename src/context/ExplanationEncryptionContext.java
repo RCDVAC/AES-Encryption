@@ -17,6 +17,8 @@ public class ExplanationEncryptionContext implements Context{
 
     private final List<State> subkeys;
 
+    private boolean skipInput = false;
+
     public ExplanationEncryptionContext(State plainBlock, List<State> subKeys, int numberOfCycles){
         this.plainBlock = plainBlock;
         this.subkeys = subKeys;
@@ -35,7 +37,7 @@ public class ExplanationEncryptionContext implements Context{
     @Override
     public State doOperations() {
         for (int i = 0; i < operations.size(); i++) {
-            while (true){
+            while (!skipInput){
                 String command = ExplanationContextsUtil.getCommandInput();
 
                 if (ExplanationContextsUtil.HELP.equals(command)) {
@@ -54,9 +56,9 @@ public class ExplanationEncryptionContext implements Context{
                     System.out.println("Cycle number: " + ((Math.floorDiv(i, 4)) + 1));
                 } else if (ExplanationContextsUtil.EXPANDED_KEY.equals(command)) {
                     ExplanationContextsUtil.printKeys(subkeys);
-                }
-
-                else if (ExplanationContextsUtil.EXIT.equals(command)) {
+                } else if (ExplanationContextsUtil.SKIP_EXPLANATION.equals(command)) {
+                    skipInput = true;
+                } else if (ExplanationContextsUtil.EXIT.equals(command)) {
                     throw new ExitException();
                 }
 
@@ -64,7 +66,6 @@ public class ExplanationEncryptionContext implements Context{
             Operation operation = operations.get(i);
             operation.loadState(plainBlock);
             plainBlock = operation.doOperation();
-            System.out.println();
         }
         return plainBlock;
     }

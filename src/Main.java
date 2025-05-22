@@ -1,15 +1,11 @@
 import context.OperationTypes;
 import exception.ExitException;
-import model.State;
-import util.StateCreationUtil;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.SQLOutput;
 import java.util.List;
 
 public class Main {
@@ -196,7 +192,7 @@ public class Main {
     }
 
     private static void printHelpMenu() {
-        System.out.println("usage: aes (--encrypt | --decrypt) (--aes128 | --aes192 | --aes256) <--input> <--output> <--password>");
+        System.out.println("usage: aes (--encrypt | --decrypt) (--aes128 | --aes192 | --aes256) <--input> <--output> <--password> <--explain>");
         System.out.println();
         System.out.println("Options:");
         System.out.println("    --help                Show this help message");
@@ -208,6 +204,7 @@ public class Main {
         System.out.println("    --password <password> Gives the password used for encryption/decryption");
         System.out.println("    --input <file>        The file to encrypt/decrypt");
         System.out.println("    --output <file>       The file where the result should be stored (Will create one if it doesn't exist)");
+        System.out.println("    --explain             Enables explanation mode which stops before doing every operation on every block and allows you to input commands to get a better idea of the AES algorithm");
 
 
     }
